@@ -12,7 +12,7 @@ st.title("💳 Sistema de Recomendação de Crédito")
 st.write("Preencha os dados do cliente para receber recomendações de produtos financeiros.")
 
 # Caminho da pasta models
-models_path = r"G:\Meu Drive\AI_data_lab\Cursos_ml_AI\Fiap\Recommendations Systems\Fiap_Sistema_recomendacao_credito\models"
+models_path = r"https://github.com/RafaelGallo/Fiap_Sistema_recomendacao_credito/tree/main/models"
 
 # ==============================
 # Carregar modelo e encoders
@@ -23,7 +23,7 @@ le_dict = joblib.load(os.path.join(models_path, "encoders.joblib"))
 # ==============================
 # Carregar dataset com fallback de encoding
 # ==============================
-csv_path = os.path.join(models_path, r"G:\Meu Drive\AI_data_lab\Cursos_ml_AI\Fiap\Recommendations Systems\Fiap_Sistema_recomendacao_credito\input\data.csv")
+csv_path = os.path.join(models_path, r"https://github.com/RafaelGallo/Fiap_Sistema_recomendacao_credito/blob/main/input/data.csv")
 
 encodings = ["utf-8", "latin1", "ISO-8859-1"]
 df = None
@@ -101,3 +101,4 @@ if st.button("🔮 Recomendar Produtos"):
     st.subheader("✅ Produtos Recomendados")
     for prod, score in recs:
         st.write(f"- {prod}: {score:.2f}")
+
