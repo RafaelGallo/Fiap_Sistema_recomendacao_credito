@@ -14,7 +14,7 @@ st.title("💳 Sistema de Recomendação de Crédito")
 st.write("Preencha os dados do cliente para receber recomendações de produtos financeiros.")
 
 # ==============================
-# URLs RAW do GitHub (ajuste se necessário)
+# URLs RAW do GitHub
 # ==============================
 url_model = "https://raw.githubusercontent.com/RafaelGallo/Fiap_Sistema_recomendacao_credito/main/models/modelo_knn.joblib"
 url_enc = "https://raw.githubusercontent.com/RafaelGallo/Fiap_Sistema_recomendacao_credito/main/models/encoders.joblib"
@@ -120,14 +120,14 @@ if st.button("🔮 Recomendar Produtos"):
             recs.append((prod, score))
     recs.sort(key=lambda x: x[1], reverse=True)
 
-    # Mostrar recomendações com barras
+    # Mostrar recomendações
     st.subheader("✅ Produtos Recomendados")
     for prod, score in recs:
         st.write(f"**{prod}**")
-        st.progress(min(score, 1.0))  # barra de 0 a 1
+        st.progress(min(score, 1.0))
         st.caption(f"Score: {score:.2f}")
 
-    # Mostrar vizinhos em tabela
+    # Mostrar vizinhos (sem key=)
     with st.expander("👥 Vizinhos mais próximos"):
         df_viz = pd.DataFrame({
             "Índice": vizinhos,
