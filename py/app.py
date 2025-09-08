@@ -84,32 +84,35 @@ with col2:
     qt_cart_cred = st.number_input("Quantidade de cartões de crédito", min_value=0, step=1)
     casa_propria = select_from("casa_propria", "Possui casa própria?")
     credit_score = st.number_input("Credit Score", min_value=0, max_value=1000, step=10)
-    # >>> Endividamento com SLIDER em porcentagem
-    endivid      = st.slider("Endividamento (%)", min_value=0, max_value=100, step=1, value=30)
+    # Endividamento em porcentagem (UI)
+    endivid_pct  = st.slider("Endividamento (%)", min_value=0, max_value=100, step=1, value=30)
     trabalha     = select_from("trabalha", "Trabalha atualmente?")
 
-st.caption(f"Endividamento selecionado: **{endivid}%**")
+st.caption(f"Endividamento selecionado: **{endivid_pct}%**")
 
 # ==============================
 # Botão de recomendação
 # ==============================
 if st.button("🔮 Recomendar Produtos"):
+    # Converte para fração (0–1) antes de mandar ao modelo
+    endivid_fraction = endivid_pct / 100.0
+
     # Monta o registro com as MESMAS transformações do treino
     try:
         data = pd.DataFrame([{
-            "idade": idade,
-            "sexo":        le_dict["sexo"].transform([sexo])[0],
-            "cor":         le_dict["cor"].transform([cor])[0],
-            "casado":      le_dict["casado"].transform([casado])[0],
-            "qt_filhos":   qt_filhos,
-            "cidade":      le_dict["cidade"].transform([cidade])[0],
-            "renda":       renda,
-            "qt_carros":   qt_carros,
+            "idade":        idade,
+            "sexo":         le_dict["sexo"].transform([sexo])[0],
+            "cor":          le_dict["cor"].transform([cor])[0],
+            "casado":       le_dict["casado"].transform([casado])[0],
+            "qt_filhos":    qt_filhos,
+            "cidade":       le_dict["cidade"].transform([cidade])[0],
+            "renda":        renda,
+            "qt_carros":    qt_carros,
             "qt_cart_cred": qt_cart_cred,
             "casa_propria": le_dict["casa_propria"].transform([casa_propria])[0],
             "credit_score": credit_score,
-            "endivid":     endivid,   # já em 0–100 (percentual)
-            "trabalha":    le_dict["trabalha"].transform([trabalha])[0],
+            "endivid":      endivid_fraction,  # <<< agora em fração
+            "trabalha":     le_dict["trabalha"].transform([trabalha])[0],
         }])
     except ValueError as e:
         st.error(f"❌ Erro ao transformar categoria: {e}")
